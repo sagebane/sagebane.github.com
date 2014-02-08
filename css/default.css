@@ -26,7 +26,7 @@ body {
 }
 
 .title {
-    background: url(http://orgmode.org/org-mode-unicorn.png) no-repeat 12px 5px;
+    background: no-repeat 12px 5px;
     display: inline;
     left: 0px;
     top: 0px;
