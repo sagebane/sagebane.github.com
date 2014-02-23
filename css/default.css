@@ -325,6 +325,16 @@ img.random {
     border: 1px solid black;
 }
 
+img {
+    display: block;   
+    box-shadow: 0 0 5px #555;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 0 10px #555;
+}
 @media screen
 {
   #table-of-contents {
@@ -334,4 +344,6 @@ img.random {
     overflow: auto;
   }
 } /* END OF @media screen */
+
+
 
