@@ -1,11 +1,12 @@
 ---
 layout: default
-title: Non-geek's page
+title: Man of the end of the world
 ---
-# Who is this?
-
-I'm a programmer, but not a good one. 
-
-Wanna be a geek, but not a geek honestly.
-
-It seems still take me serveral years to find WHO I am, and I will try it hard.
+<ul>
+{% for post in site.posts %}
+  <li>
+   <span class="date">{{ post.date | date_to_string }}</span> <a href="{{ post.url }}">{{ post.title }}</a>
+    <div class="clear"></div>
+  </li>
+{% endfor %}
+</ul>
