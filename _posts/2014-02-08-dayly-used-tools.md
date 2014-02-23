@@ -9,18 +9,3 @@ excerpt: Usefull tools for working
 + project planning: planner
 + mind mapping: xmind mindomo
 + document publish: texmac
-
-## life style ##
-
-test
-kkkllllkk
-
-	int main(int argc ,char argv**)
-	{
-		return 0;
-	}
-
-
-
-哦，上面一段代码。
-
