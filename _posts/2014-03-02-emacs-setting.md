@@ -47,6 +47,11 @@ org-mode 8.0以上，需要用到ox-latex中的变量：
 	(add-to-list 'org-latex-packages-alist '("" "minted"))
 	(setq org-latex-listings 'minted)
 
+生成pdf的指令修改为:
+
+	(setq org-latex-pdf-process '("xelatex -shell-escape -pdf -quiet %f"
+		"xelatex -shell-escape -pdf -quiet %f"))
+
 C-c C-e l o编译，产生错误：
 
 ![org-mode error](/images/orgerror.png)
@@ -68,8 +73,8 @@ C-c C-e l o编译，产生错误：
 
     (global-set-key (kbd "C-c d") 'kid-sdcv-to-buffer)
     (defun kid-sdcv-to-buffer ()
-      (interactive)
-      (let ((word (if mark-active
+		(interactive)
+		(let ((word (if mark-active
                       (buffer-substring-no-properties (region-beginning) (region-end))
                       (current-word nil t))))
         (setq word (read-string (format "Search the dictionary for (default %s): " word)
@@ -113,3 +118,103 @@ C-c C-e l o编译，产生错误：
 
 	xmodmap ~/.Xmodmap
 
+
+## sawfish 配置
+    (require 'sawfish-defaults)
+    
+    (custom-set-typed-variable (quote wm-modifier-value) 
+    			   (quote (super)) 
+    			   (quote modifier-list))
+    (custom-set-typed-variable (quote default-frame-style)
+    			   (quote brushed-metal)
+    			   (quote frame-style))
+    (custom-set-typed-variable (quote workspace-names)
+    			   (quote ("local" "remote" "other" "virtual"))
+    			   (quote (list string "virtual desk top")))
+    
+    (custom-set-typed-variable (quote focus-mode)
+    			   (quote enter-only)
+    			   (quote symbol))
+    (custom-set-typed-variable (quote place-window-mode)
+    			   (quote first-fit)
+    			   (quote symbol))
+    
+    ;; this function is used a bit further in, in my local config. i use it to blur
+    ;; the line between what's running and what needs to be started, so i can hit a
+    ;; key to load something, or jump to it if it was already running. i love
+    ;; sawfish.
+    (defun jump-or-exec (re prog #!optional onfocused)
+      "jump to a window matched by re, or start program otherwise."
+      (catch 'return
+        (let ((wind (get-window-by-name-re re)))
+          (if (functionp onfocused) ; check if already focused
+              (let ((curwin (input-focus)))
+                (if curwin
+                    (if (string-match re (window-name curwin))
+                        (progn
+                          (funcall onfocused wind)
+                          (throw 'return))))))
+          (if (windowp wind)
+              (display-window wind)
+            (if (functionp prog)
+                (funcall prog)
+              (system (concat prog "&")))))))
+    
+    
+    ;; start up
+    (define startup-programs
+      '(
+        ("feh" "--bg-center" "/home/sgbn/img/wallpaper/sundown-600x900.jpg")
+        ))
+    
+    (mapc (lambda (program)
+    	(apply start-process (make-process standard-output) program))
+          startup-programs)
+    
+    (add-hook 'before-exit-hook 
+    	  (lambda () 
+    	    (mapc stop-process (active-processes))))
+    
+    ;; global manipulations
+    (bind-keys global-keymap
+    	   ;; system relative
+    	   "W-o" 'restart
+    	   "W-F12" '(run-shell-command "xscreensaver-command -lock")
+    
+    	   ;; active worksapce
+    	   "W-1" '(activate-workspace 1)
+    	   "W-2" '(activate-workspace 2)
+    	   "W-3" '(activate-workspace 3)
+    	   "W-4" '(activate-workspace 4)
+    
+    	   ;;jump or exec
+    	   "W-e" `(jump-or-exec "emacs " "emacs")
+    	   "W-f" `(jump-or-exec "Pentadactyl" "firefox")
+    	   "W-RET" `(jump-or-exec "Terminal" "gnome-terminal -e screen")
+    	   "W-s" `(jump-or-exec "StarDict" "stardict")
+    )
+    
+    ;; Window manipulations
+    (bind-keys window-keymap
+               ;; Grow to an edge
+               "C-W-k" 'grow-window-up
+               "C-W-j" 'grow-window-down
+               "C-W-h" 'grow-window-left
+               "C-W-l" 'grow-window-right
+    
+               ;; Move to an edge
+    	   "W-k" 'pack-window-up
+    	   "W-j" 'pack-window-down
+    	   "W-h" 'pack-window-left
+    	   "W-l" 'pack-window-right
+    
+    	   ;; move window to worksapce
+    	   "W-!" '(send-to-workspace 1)
+    	   "W-@" '(send-to-workspace 2)
+    	   "W-$" '(send-to-workspace 4)
+    	   "W-#" '(send-to-workspace 3)
+    
+    	   ;; maxmize the window
+    	   "W-m" 'maximize-fill-window-toggle
+    	   "W-X" '(delete-window (current-event-window)))
+    
