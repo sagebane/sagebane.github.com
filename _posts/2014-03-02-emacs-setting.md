@@ -100,6 +100,11 @@ C-c C-e l o编译，产生错误：
 
 使用快捷键C-c d查字典。
 
+### 其它
+doxymacs 非常方便配合doxygen生成api文档
+将el编译为elc，加速emacs装载:
+
+	byte-compile-file
 ## 互换caps lock 和 Ctrl
 
 编辑文件~/.Xmodmap：
@@ -117,6 +122,7 @@ C-c C-e l o编译，产生错误：
 执行：
 
 	xmodmap ~/.Xmodmap
+
 
 
 ## sawfish 配置
