@@ -1,6 +1,8 @@
 ---
 layout: post
 title: emacs 配置
+visible: 1
+
 ---
 ## org-mode
 
