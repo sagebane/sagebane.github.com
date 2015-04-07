@@ -4,7 +4,7 @@ title: emacs 配置
 visible: 1
 
 ---
-## org-mode
+# org-mode
 
 ### 导出到中文pdf
 org-mode 8.0以上，需要用到ox-latex中的变量：
