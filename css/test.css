@@ -112,6 +112,7 @@ hr {
     -moz-box-shadow: 0 0 1em #777777;
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomleft: 5px;
+
     text-align: left;
     /* ensure doesn't flow off the screen when expanded */
     max-height: 80%;
@@ -178,6 +179,7 @@ img {
     font-size: 70%;
     white-space: nowrap; 
 }
+
 @media screen
 {
   #table-of-contents {
@@ -186,4 +188,5 @@ img {
     max-width: 50%;
     overflow: auto;
   }
+
 } /* END OF @media screen */
